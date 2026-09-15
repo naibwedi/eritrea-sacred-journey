@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#202522">
+  <meta name="description" content="A quiet, interactive 3D journey through Eritrean Orthodox-inspired architecture and sacred art. Begin in the courtyard, step inside, and explore.">
+  <title>Selam — A Sacred Journey</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main id="experience" aria-label="Interactive 3D church tour">
+    <div id="scene" aria-label="Three dimensional church view"></div>
+    <div class="vignette" aria-hidden="true"></div>
+    <div id="loading" role="status"><span class="loading-mark">✣</span><p>Preparing your journey</p><span>Architecture · Art · Stillness</span></div>
+    <div id="fallback" hidden><h1>A sacred journey</h1><p>The 3D view needs a browser with WebGL enabled. You can still discover the architecture, artwork, and research below.</p><button id="fallback-about">Explore the story</button></div>
+    <header class="chrome topbar">
+      <a class="brand" href="#courtyard" aria-label="Selam, return to courtyard"><span class="brand-mark">✣</span><span>selam<span class="brand-sub">A SACRED JOURNEY</span></span></a>
+      <div class="place-label">ERITREA<span>Architecture & living heritage</span></div>
+      <div class="top-actions"><button id="about" class="text-button">The story <span aria-hidden="true">↗</span></button><button id="fullscreen" class="icon-button" aria-label="Enter fullscreen" title="Fullscreen">⛶</button></div>
+    </header>
+    <aside class="chrome side-label" aria-hidden="true">INSPIRED BY ENDA MARIAM · ASMARA</aside>
+    <div class="chrome atmosphere"><button id="lighting" aria-pressed="false"><span id="light-icon" aria-hidden="true">☀</span><span id="light-label">Golden hour</span><span class="switch-dot" aria-hidden="true"></span></button></div>
+    <section class="chrome introduction" aria-live="polite" aria-atomic="true">
+      <div class="eyebrow"><span id="chapter-number">01 / 05</span><span class="fine-line"></span><span id="chapter-label">THE COURTYARD</span></div>
+      <h1 id="scene-title">A journey into<br>the <em>sacred.</em></h1>
+      <p id="scene-description">Beyond the doorway, a world of color, craftsmanship, and quiet devotion.</p>
+      <div class="primary-actions"><button class="primary" id="next">Step inside <span aria-hidden="true">↗</span></button><button class="tour-button" id="tour" aria-pressed="false"><span id="tour-symbol" aria-hidden="true">▷</span><span id="tour-label">Guided journey</span></button></div>
+    </section>
+    <button id="art-hotspot" class="chrome art-hotspot" hidden><span aria-hidden="true">＋</span> Discover the icons</button>
+    <div class="chrome map-card"><div class="map-heading"><span>YOUR JOURNEY</span><span id="map-count">01—05</span></div><svg viewBox="0 0 160 185" role="img" aria-label="Floor plan with your current viewpoint"><path class="map-outline" d="M32 113V21H128V113H113V133H47V113ZM58 21V9H102V21M32 43H128M32 104H128M47 113H113M12 145H148V177H12Z"/><path class="map-route" d="M80 164V124V84L101 50L80 54"/><g class="map-columns"><circle cx="51" cy="62" r="3"/><circle cx="109" cy="62" r="3"/><circle cx="51" cy="87" r="3"/><circle cx="109" cy="87" r="3"/></g><circle id="map-position" cx="80" cy="164" r="5"/></svg><span id="map-location">Courtyard</span></div>
+    <footer class="chrome bottom-bar"><nav id="chapters" aria-label="Tour stops"><button data-stop="0" class="active" aria-current="step"><span>01</span> Courtyard</button><button data-stop="1"><span>02</span> Doorway</button><button data-stop="2"><span>03</span> Interior</button><button data-stop="3"><span>04</span> Sacred art</button><button data-stop="4"><span>05</span> Stillness</button></nav><div class="utility"><button id="sound" class="icon-button" aria-label="Enable ambient sound" aria-pressed="false" title="Ambient sound">♫<span class="sound-slash" aria-hidden="true">/</span></button><button id="hide-ui" class="icon-button" aria-label="Hide interface" title="Hide interface (H)">◉</button></div></footer>
+    <div class="chrome control-hint"><span aria-hidden="true">↔</span> Drag to look around <span class="hint-separator">·</span> <span class="desktop-hint">Scroll to zoom · </span>Use stops to move</div>
+    <button id="show-ui" class="restore-ui" hidden>Show controls <span aria-hidden="true">＋</span></button>
+    <div id="toast" role="status"></div>
+  </main>
+  <dialog id="details" aria-labelledby="detail-title"><button id="close-details" class="close-button" aria-label="Close details">×</button><div id="detail-body"></div></dialog>
+  <script type="module" src="./app.js"></script>
+  <noscript><div class="no-script">This journey uses JavaScript for its 3D view. <a href="./creative-brief.md">Read the researched creative brief.</a></div></noscript>
+</body>
+</html>
