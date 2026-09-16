@@ -2,6 +2,7 @@
 .sites-runtime
 .artifacts
 .openai
+.env*
 verification
 docs
 README.md
