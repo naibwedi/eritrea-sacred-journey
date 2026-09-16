@@ -6,6 +6,3 @@ verification/
 .vercel/
 .openai/
 .env*
-
-.vercel
-.env*

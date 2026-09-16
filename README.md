@@ -2,6 +2,8 @@
 
 An interactive 3D journey through Eritrean Orthodox-inspired architecture. Walk from a sunlit courtyard into a richly decorated church, explore sacred art, and pause in candlelight.
 
+**[Explore the live website →](https://eritrea-sacred-journey.vercel.app)**
+
 ![Selam — the church courtyard](docs/preview.png)
 
 ## Explore
