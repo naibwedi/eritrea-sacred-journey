@@ -1,0 +1,8 @@
+.git
+.sites-runtime
+.artifacts
+.openai
+verification
+docs
+README.md
+server.mjs

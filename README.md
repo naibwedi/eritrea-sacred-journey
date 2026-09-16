@@ -1,32 +1,37 @@
 # Selam — A Sacred Journey
 
-A static Three.js experience inspired by Eritrean Orthodox Tewahedo church architecture. This is a conceptual interpretation, not an accurate reconstruction of Enda Mariam.
+An interactive 3D journey through Eritrean Orthodox-inspired architecture. Walk from a sunlit courtyard into a richly decorated church, explore sacred art, and pause in candlelight.
+
+![Selam — the church courtyard](docs/preview.png)
+
+## Explore
+
+- Five connected viewpoints, from the courtyard to the sanctuary curtain
+- A guided tour, drag-to-look controls, and keyboard navigation
+- Three original icon-inspired illustrations with a close-up gallery
+- Golden-hour and candlelight settings, with optional ambient sound
+- Responsive layouts and a reduced-motion option
+
+![Inside the church](docs/interior.png)
 
 ## Run locally
 
-Requires Node.js. From this directory:
+With [Node.js](https://nodejs.org/) installed:
 
 ```sh
 node server.mjs
 ```
 
-Open http://127.0.0.1:4173. No package installation or build is needed; the Three.js runtime is vendored in `dist/assets`.
+Open **http://127.0.0.1:4173**. No installation or build step is required.
 
-## Contents
+**Controls:** select a numbered stop to travel, drag to look around, scroll to zoom, and press **H** to hide the interface. **← / →** changes stops. Open **The story** for references and reduced motion.
 
-- `dist/index.html`: accessible interface and scene host.
-- `dist/app.js`: church model, lighting, camera navigation, audio, and artwork viewer.
-- `dist/style.css`: desktop and mobile layouts.
-- `dist/creative-brief.md`: improved prompt, research, credits, and prioritized ideas.
-- `dist/assets/icons.png`: original AI-generated icon-inspired triptych.
-- `dist/assets/THREE-LICENSE.txt`: Three.js MIT license.
+## Deploy
 
-Google Fonts requires a connection; local serif and sans-serif fallbacks remain available. Everything needed for 3D rendering and artwork is served locally.
+Import this repository into [Vercel](https://vercel.com/new). The included configuration serves `dist` as a static website, with no environment variables or build command needed.
 
-## Controls
+## About the project
 
-Use the five numbered stops to move. Drag the scene to look around; scroll to zoom. Left and Right arrow keys change stops outside a dialog or text input. H hides/shows the interface. Open The story for references and the reduced-motion setting.
+Built with **Three.js**, vanilla JavaScript, CSS, and Web Audio. The exterior draws inspiration from Enda Mariam in Asmara. The model and AI-generated artwork are creative interpretations, not an accurate reconstruction or an official church website.
 
-## Scope
-
-Exterior forms draw on Enda Mariam photographs. Layout, furnishings, artwork, and atmosphere are original concept choices. An authoritative version needs parish review, measured references, approved artwork, and recordings where appropriate. The tour stops before a closed sanctuary curtain.
+Read the [creative brief, research, and future ideas](dist/creative-brief.md). Three.js is included under its [MIT license](dist/assets/THREE-LICENSE.txt).

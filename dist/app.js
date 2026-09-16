@@ -84,7 +84,7 @@ function combineArchitecture(){
   for(const {group} of doors)group.traverse(object=>moving.add(object));
   const batches=new Map();
   scene.traverse(object=>{
-    if(!object.isMesh||moving.has(object))return;
+    if(!object.isMesh||moving.has(object)||object.userData.skipBatch)return;
     const key=object.material.uuid;
     if(!batches.has(key))batches.set(key,{material:object.material,objects:[],geometries:[]});
     const batch=batches.get(key),geometry=object.geometry.index?object.geometry.toNonIndexed():object.geometry.clone();
@@ -113,6 +113,13 @@ async function buildScene() {
   const sun=new THREE.DirectionalLight('#ffe2aa',3.6);sun.position.set(-22,34,22);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-45,right:45,top:35,bottom:-35,near:1,far:110});sun.shadow.bias=-.0003;sun.shadow.normalBias=.035;scene.add(sun);
   const fill=new THREE.DirectionalLight('#bdd5cd',.7);fill.position.set(20,10,-12);scene.add(fill);
   scene.userData={sun,hemi,fill};
+  const skyUniforms={night:{value:0},top:{value:new THREE.Color('#547c85')},horizon:{value:new THREE.Color('#e8d1a4')}};
+  const skyMaterial=new THREE.ShaderMaterial({
+    side:THREE.BackSide,depthWrite:false,uniforms:skyUniforms,
+    vertexShader:'varying vec3 worldPosition; void main(){vec4 p=modelMatrix*vec4(position,1.0);worldPosition=p.xyz;gl_Position=projectionMatrix*viewMatrix*p;}',
+    fragmentShader:'varying vec3 worldPosition; uniform float night; uniform vec3 top; uniform vec3 horizon; void main(){vec3 direction=normalize(worldPosition);float height=pow(max(direction.y,0.0),0.55);vec3 daylight=mix(horizon,top,height);float glow=pow(max(dot(direction,normalize(vec3(-0.6,0.25,0.7))),0.0),38.0);daylight+=vec3(0.36,0.22,0.07)*glow;vec3 evening=mix(vec3(0.025,0.055,0.075),vec3(0.004,0.012,0.025),height);gl_FragColor=vec4(mix(daylight,evening,night),1.0);\n#include <tonemapping_fragment>\n#include <colorspace_fragment>\n}'
+  });
+  const sky=mesh(new THREE.SphereGeometry(170,32,18),skyMaterial);sky.castShadow=false;sky.receiveShadow=false;sky.userData.skipBatch=true;scene.userData.skyUniforms=skyUniforms;
   const ground=mesh(new THREE.PlaneGeometry(230,230),material('#8c9075'),0,-.13,0);ground.rotation.x=-Math.PI/2;ground.castShadow=false;
   const court=mesh(new THREE.PlaneGeometry(74,80),material('#dfd1b4',{map:paveMap}),0,-.02,10);court.rotation.x=-Math.PI/2;court.castShadow=false;
   // Forecourt paving and an approach aligned with the entrance.
@@ -230,7 +237,7 @@ document.querySelectorAll('[data-stop]').forEach(b=>b.onclick=()=>{stopTour();go
 document.querySelector('.brand').onclick=e=>{e.preventDefault();stopTour();goTo(0);};
 $('next').onclick=()=>{stopTour();if(current===3)showIcons();else goTo(current===4?0:current+1);};
 $('tour').onclick=()=>{if(touring){stopTour();return;}touring=true;$('tour').setAttribute('aria-pressed','true');$('tour-label').textContent='Pause journey';$('tour-symbol').textContent='Ⅱ';goTo(current===4?0:current+1);};
-$('lighting').onclick=()=>{if(!scene)return;night=!night;$('lighting').setAttribute('aria-pressed',String(night));$('light-label').textContent=night?'Candlelight':'Golden hour';$('light-icon').textContent=night?'☾':'☀';scene.background.set(night?'#182c3c':'#aaa992');scene.fog.color.set(night?'#263a43':'#b3b19b');scene.userData.sun.intensity=night?.23:3.6;scene.userData.sun.color.set(night?'#b4caff':'#ffe2aa');scene.userData.hemi.intensity=night?.65:2.5;scene.userData.fill.intensity=night?.28:.7;renderer.toneMappingExposure=night?1.13:1.05;};
+$('lighting').onclick=()=>{if(!scene)return;night=!night;scene.userData.skyUniforms.night.value=night?1:0;$('lighting').setAttribute('aria-pressed',String(night));$('light-label').textContent=night?'Candlelight':'Golden hour';$('light-icon').textContent=night?'☾':'☀';scene.background.set(night?'#182c3c':'#aaa992');scene.fog.color.set(night?'#263a43':'#b3b19b');scene.userData.sun.intensity=night?.23:3.6;scene.userData.sun.color.set(night?'#b4caff':'#ffe2aa');scene.userData.hemi.intensity=night?.65:2.5;scene.userData.fill.intensity=night?.28:.7;renderer.toneMappingExposure=night?1.13:1.05;};
 function setHidden(hide){$('experience').classList.toggle('ui-hidden',hide);$('show-ui').hidden=!hide;}$('hide-ui').onclick=()=>setHidden(true);$('show-ui').onclick=()=>setHidden(false);
 $('fullscreen').onclick=async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen();}catch{toast('Fullscreen is unavailable in this browser.');}};document.addEventListener('fullscreenchange',()=>$('fullscreen').setAttribute('aria-label',document.fullscreenElement?'Exit fullscreen':'Enter fullscreen'));
 addEventListener('keydown',e=>{if($('details').open||['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))return;if(e.key==='ArrowRight'){e.preventDefault();stopTour();goTo((current+1)%5);}if(e.key==='ArrowLeft'){e.preventDefault();stopTour();goTo((current+4)%5);}if(e.key.toLowerCase()==='h')setHidden(!$('experience').classList.contains('ui-hidden'));});
